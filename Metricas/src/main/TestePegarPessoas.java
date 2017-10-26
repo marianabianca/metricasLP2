@@ -103,21 +103,4 @@ public class TestePegarPessoas {
 		}
 	}
 
-//	private static FilenameFilter criaFiltro() {
-//		FilenameFilter classFilter = new FilenameFilter() {
-//			
-//			@Override
-//			public boolean accept(File dir, String name) {
-//				name = name.toLowerCase();
-//				if (name.endsWith(".java")) {
-//					return true;
-//				} else {
-//					return false;
-//				}
-//			}
-//		};
-//		
-//		return classFilter;
-//	}
-
 }
