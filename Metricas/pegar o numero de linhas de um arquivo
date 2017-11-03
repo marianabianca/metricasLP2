@@ -1,6 +1,0 @@
-File file = new File("src" + File.separator + "main" + File.separator + "TestePegarPessoas.java");
-		try {
-			System.out.println(Files.lines(file.toPath()).count());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
