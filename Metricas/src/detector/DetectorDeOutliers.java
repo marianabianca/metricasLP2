@@ -10,7 +10,7 @@ import entidades.Projeto;
 public class DetectorDeOutliers {
 
 	public String detectarOutliers(Map<String, Projeto> projetos) {
-		List<Integer> classesPorProjeto = this.classesPorProjeto(projetos);
+		List<Double> classesPorProjeto = this.classesPorProjeto(projetos);
 		
 		double mediana = this.descobreMediana(classesPorProjeto);
 		double desvioAbsolutoMedio = this.getDesvioAbsolutoMedio(classesPorProjeto, mediana);
@@ -90,56 +90,49 @@ public class DetectorDeOutliers {
 		return zScore < -3.5;
 	}
 
-	private List<Integer> classesPorProjeto(Map<String, Projeto> projetos) {
-		List<Integer> classesPorProjeto = new ArrayList<>();
+	private List<Double> classesPorProjeto(Map<String, Projeto> projetos) {
+		List<Double> classesPorProjeto = new ArrayList<>();
 		
 		for (String nomeDoProjeto : projetos.keySet()) {
 			Projeto projeto = projetos.get(nomeDoProjeto);
-			int numeroDeClassesDoProjeto = projeto.getNumeroDeClasses();
+			double numeroDeClassesDoProjeto = projeto.getNumeroDeClasses();
 			classesPorProjeto.add(numeroDeClassesDoProjeto);
 		}
 		
 		return classesPorProjeto;
 	}
 
-	private double getDesvioAbsolutoMedio(List<Integer> numeroDeClassesProjetos, double mediana) {
+	private double getDesvioAbsolutoMedio(List<Double> classesPorProjeto, double mediana) {
 		List<Double> distanciaDeCadaElementoAMediana = new ArrayList<>();
 		
 		double desvioAbsolutoMedio = 0;
 		
-		for (Integer numeroDeClassesProjeto : numeroDeClassesProjetos) {
+		for (Double numeroDeClassesProjeto : classesPorProjeto) {
 			double distancia = Math.abs(numeroDeClassesProjeto - mediana);
 			distanciaDeCadaElementoAMediana.add(distancia);
 		}
 		
 		Collections.sort(distanciaDeCadaElementoAMediana);
 		
-		int numeroDeElementos = distanciaDeCadaElementoAMediana.size();
-		int centro = numeroDeElementos / 2;
-		
-		if (numeroDeElementos % 2 == 0) {
-			desvioAbsolutoMedio = (distanciaDeCadaElementoAMediana.get(centro) + distanciaDeCadaElementoAMediana.get(centro - 1)) / 2;
-		} else {
-			desvioAbsolutoMedio = distanciaDeCadaElementoAMediana.get(centro);
-		}
+		desvioAbsolutoMedio = descobreMediana(distanciaDeCadaElementoAMediana);
 		
 		return desvioAbsolutoMedio;
 	}
 
-	private double descobreMediana(List<Integer> classesPorProjeto) {
+	private double descobreMediana(List<Double> lista) {
 		double mediana;
 		
-		List<Integer> classesPorProjetoCopia = new ArrayList<>(classesPorProjeto);
+		List<Double> listaCopia = new ArrayList<>(lista);
 		
-		Collections.sort(classesPorProjetoCopia);
+		Collections.sort(listaCopia);
 		
-		int numeroDeElementos = classesPorProjetoCopia.size();
+		int numeroDeElementos = listaCopia.size();
 		int centro = numeroDeElementos / 2;
 		
 		if (numeroDeElementos % 2 == 0) {
-			mediana = (classesPorProjetoCopia.get(centro) + classesPorProjetoCopia.get(centro - 1)) / 2;
+			mediana = (listaCopia.get(centro) + listaCopia.get(centro - 1)) / 2;
 		} else {
-			mediana = classesPorProjetoCopia.get(centro);
+			mediana = listaCopia.get(centro);
 		}
 		
 		return mediana;

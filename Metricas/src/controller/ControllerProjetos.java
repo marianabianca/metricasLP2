@@ -3,12 +3,14 @@ package controller;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import detector.DetectorDeOutliers;
 import entidades.Projeto;
 
 public class ControllerProjetos {
-	static final String PATH = "Projetos";
+	private static final String SEPARATOR = File.separator;
+	static final String PATH_PROJETOS = "Projetos";
 	private Map<String, Projeto> projetos;
 	private DetectorDeOutliers detectorDeOutliers;
 	
@@ -25,32 +27,48 @@ public class ControllerProjetos {
 		return outliers;
 	}
 
-	private void inicializarSistema() {
-		this.adicionaProjetosAoController();
-		this.atualizaNumDeClassesDosProjetos();
+	private void inicializarSistema() {		
+		this.adicionarProjetosAoController();
+		this.atualizarNumDeClassesDosProjetos();
+	}
+	
+	private String[] pegarNomesProjetos() {
+		File diretorioInicial = new File(PATH_PROJETOS);
+		String[] nomesProjetos = diretorioInicial.list();
+		
+		return nomesProjetos;
 	}
 
-	private void adicionaProjetosAoController() {
-		File diretorioInicial = new File(ControllerProjetos.PATH);
-		
-		String[] nomesProjetos = diretorioInicial.list();
+	private void adicionarProjetosAoController() {
+		String[] nomesProjetos = this.pegarNomesProjetos();
 		
 		for (String nomeProjeto : nomesProjetos) {
 			Projeto projeto = new Projeto(nomeProjeto);
 			this.projetos.put(nomeProjeto, projeto);
-		}		
-	}
-	
-	private void atualizaNumDeClassesDosProjetos() {
-		for (String nomeProjeto : projetos.keySet()) {
-			int numeroDeClasses = numeroDeClassesDoProjeto(ControllerProjetos.PATH + File.separator + nomeProjeto);
-			
-			Projeto projeto = projetos.get(nomeProjeto);
-			projeto.setNumeroDeClasse(numeroDeClasses);
 		}
 	}
 	
-	private static int numeroDeClassesDoProjeto(String path) {
+	private void atualizarNumDeClassesDosProjetos() {
+		Set<String> nomesProjetos = projetos.keySet();
+		
+		for (String nomeProjeto : nomesProjetos) {
+			this.atualizarNumDeClassesProjeto(nomeProjeto);
+		}
+	}
+	
+	private void atualizarNumDeClassesProjeto(String nomeProjeto) {
+		String pathProjeto = gerarPathDoProjeto(nomeProjeto);
+		int numDeClasses = pegarNumClassesProjeto(pathProjeto);
+		Projeto projeto = projetos.get(nomeProjeto);
+		projeto.atualizarNumeroDeClasses(numDeClasses);
+	}
+
+	private String gerarPathDoProjeto(String nomeProjeto) {
+		String pathProjeto = PATH_PROJETOS + SEPARATOR + nomeProjeto;
+		return pathProjeto;
+	}
+
+	private static int pegarNumClassesProjeto(String path) {
 		int numeroDeClassesDoProjeto = 0;
 		String[] conteudoDoDiretorio = pegarConteudoDoDiretorio(path);
 		
@@ -58,15 +76,20 @@ public class ControllerProjetos {
 			numeroDeClassesDoProjeto += numeroDeClassesDoDiretorio(conteudoDoDiretorio);
 			
 			for (String elemento : conteudoDoDiretorio) {
-				String auxPath = path + File.separator + elemento;
+				String auxPath = criarPath(path, elemento);
 				
 				if (new File(auxPath).isDirectory()) {
-					numeroDeClassesDoProjeto += numeroDeClassesDoProjeto(auxPath);
+					numeroDeClassesDoProjeto += pegarNumClassesProjeto(auxPath);
 				}
 			}
 		}
 		
 		return numeroDeClassesDoProjeto;
+	}
+
+	private static String criarPath(String path, String elemento) {
+		String retorno = path + SEPARATOR + elemento;
+		return retorno;
 	}
 	
 	public static int numeroDeClassesDoDiretorio(String[] conteudo) {
@@ -84,9 +107,9 @@ public class ControllerProjetos {
 	
 	private static String[] pegarConteudoDoDiretorio(String pathInicial) {
 		File diretorioInicial = new File(pathInicial);
-		String[] packages = diretorioInicial.list();
+		String[] elementosDiretorio = diretorioInicial.list();
 		
-		return packages;
+		return elementosDiretorio;
 	}
 
 }

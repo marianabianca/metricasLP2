@@ -9,13 +9,13 @@ public class Projeto {
 		this.nome = nome;
 		this.numeroDeClasses = 0;
 	}
-	
-	public void setNumeroDeClasse(int numeroDeClasses) {
-		this.numeroDeClasses = numeroDeClasses;
-	}
 
 	public int getNumeroDeClasses() {
 		return this.numeroDeClasses;
+	}
+
+	public void atualizarNumeroDeClasses(int numeroDeClasses) {
+		this.numeroDeClasses = numeroDeClasses;
 	}
 
 }
