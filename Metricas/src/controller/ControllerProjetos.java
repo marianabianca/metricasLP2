@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -59,8 +61,10 @@ public class ControllerProjetos {
 	private void atualizarNumDeClassesProjeto(String nomeProjeto) {
 		String pathProjeto = gerarPathDoProjeto(nomeProjeto);
 		int numDeClasses = pegarNumClassesProjeto(pathProjeto);
+		int numDeLinhas = pegarNumLinhasProjeto(pathProjeto);
 		Projeto projeto = projetos.get(nomeProjeto);
 		projeto.atualizarNumeroDeClasses(numDeClasses);
+		projeto.atualizarNumeroDeLinhas(numDeLinhas);
 	}
 
 	private String gerarPathDoProjeto(String nomeProjeto) {
@@ -87,6 +91,43 @@ public class ControllerProjetos {
 		return numeroDeClassesDoProjeto;
 	}
 
+	private static int pegarNumLinhasProjeto(String path) {
+		int numeroDeClassesDoProjeto = 0;
+		String[] conteudoDoDiretorio = pegarConteudoDoDiretorio(path);
+		
+		if (conteudoDoDiretorio != null && conteudoDoDiretorio.length > 0) {
+			numeroDeClassesDoProjeto += numeroDeLinhasDoDiretorio(path, conteudoDoDiretorio);
+			
+			for (String elemento : conteudoDoDiretorio) {
+				String auxPath = criarPath(path, elemento);
+				
+				if (new File(auxPath).isDirectory()) {
+					numeroDeClassesDoProjeto += pegarNumLinhasProjeto(auxPath);
+				}
+			}
+		}
+		
+		return numeroDeClassesDoProjeto;
+	}
+	
+	public static int numeroDeLinhasDoDiretorio(String diretorio, String[] conteudo) {
+		int numClasses = 0;
+		
+		for (String elemento : conteudo) {
+			if (elemento.toLowerCase().endsWith(".java")) {
+				try {
+					numClasses += Files.lines(new File(diretorio + File.separator + elemento).toPath()).count();
+				} catch (IOException ioe) {
+					//throw new RuntimeException(ioe);
+					ioe.printStackTrace();
+					return 0;
+				}
+			}
+		}
+		
+		return numClasses;
+	}
+	
 	private static String criarPath(String path, String elemento) {
 		String retorno = path + SEPARATOR + elemento;
 		return retorno;

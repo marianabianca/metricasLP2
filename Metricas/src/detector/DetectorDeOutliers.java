@@ -9,12 +9,17 @@ import entidades.Projeto;
 
 public class DetectorDeOutliers {
 
-	public String detectarOutliers(Map<String, Projeto> projetos) {
-		List<Double> classesPorProjeto = this.classesPorProjeto(projetos);
-		
+	private String detectarOutliersGenerico(Map<String, Projeto> projetos, List<Double> classesPorProjeto) {
 		double mediana = this.descobreMediana(classesPorProjeto);
 		double desvioAbsolutoMedio = this.getDesvioAbsolutoMedio(classesPorProjeto, mediana);
 		
+		// se for zero... https://www.ibm.com/support/knowledgecenter/en/SSWLVY_1.0.0/com.ibm.spss.analyticcatalyst.help/analytic_catalyst/modified_z.html
+		// If MAD does equal 0. Subtract the median from the score and divide by 1.253314*MeanAD. 1.253314*MeanAD approximately equals the standard deviation: (X-MED)/(1.253314*MeanAD).
+
+		if (desvioAbsolutoMedio <= 0.00001) {
+			desvioAbsolutoMedio = 1.253314 * mediana;
+		}
+
 		System.out.println("mediana: " + mediana);
 		System.out.println("desvio absoluto medio: " + desvioAbsolutoMedio);
 		System.out.println();
@@ -25,6 +30,16 @@ public class DetectorDeOutliers {
 		String retorno = this.imprimeOutliers(outliersPositivos, outliersNegativos);
 		
 		return retorno;
+	}
+
+	public String detectarOutliers(Map<String, Projeto> projetos) {
+		String resultado = "CLASSESSS ..... ";
+		List<Double> classesPorProjeto = this.classesPorProjeto(projetos);
+		resultado += detectarOutliersGenerico(projetos, classesPorProjeto);
+		resultado += "\n LINHASSS.....";
+		classesPorProjeto = this.linhasPorProjeto(projetos);
+		resultado += detectarOutliersGenerico(projetos, classesPorProjeto);
+		return resultado;
 	}
 
 	private String imprimeOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
@@ -102,6 +117,19 @@ public class DetectorDeOutliers {
 		return classesPorProjeto;
 	}
 
+	private List<Double> linhasPorProjeto(Map<String, Projeto> projetos) {
+		List<Double> classesPorProjeto = new ArrayList<>();
+		
+		for (String nomeDoProjeto : projetos.keySet()) {
+			Projeto projeto = projetos.get(nomeDoProjeto);
+			double numeroDeClassesDoProjeto = projeto.getNumeroDeLinhas();
+			classesPorProjeto.add(numeroDeClassesDoProjeto);
+		}
+		
+		return classesPorProjeto;
+	}
+
+
 	private double getDesvioAbsolutoMedio(List<Double> classesPorProjeto, double mediana) {
 		List<Double> distanciaDeCadaElementoAMediana = new ArrayList<>();
 		
@@ -113,7 +141,7 @@ public class DetectorDeOutliers {
 		}
 		
 		Collections.sort(distanciaDeCadaElementoAMediana);
-		
+		System.out.println(distanciaDeCadaElementoAMediana);	
 		desvioAbsolutoMedio = descobreMediana(distanciaDeCadaElementoAMediana);
 		
 		return desvioAbsolutoMedio;
@@ -121,7 +149,7 @@ public class DetectorDeOutliers {
 
 	private double descobreMediana(List<Double> lista) {
 		double mediana;
-		
+
 		List<Double> listaCopia = new ArrayList<>(lista);
 		
 		Collections.sort(listaCopia);
