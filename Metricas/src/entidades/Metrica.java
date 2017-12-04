@@ -9,12 +9,12 @@ public class Metrica {
 	
 	private String nome;
 	private Map<String, Double> elementos;
-	private Outliers outliers;
+	private Avaliacao avaliacao;
 	
 	public Metrica(String nome) {
 		this.nome = nome;
 		this.elementos = new HashMap<>();
-		this.outliers = new Outliers();
+		this.avaliacao = new Avaliacao();
 	}
 	
 	public String getNome() {
@@ -40,15 +40,23 @@ public class Metrica {
 	}
 	
 	public void setOutliersPositivos(List<String> outliersPositivos) {
-		this.outliers.setOuliersPositivos(outliersPositivos);
+		this.avaliacao.setOuliersPositivos(outliersPositivos);
 	}
 	
 	public void setOutliersNegativos(List<String> outliersNegativos) {
-		this.outliers.setOuliersNegativos(outliersNegativos);
+		this.avaliacao.setOuliersNegativos(outliersNegativos);
+	}
+	
+	public void setMediana(Double mediana) {
+		this.avaliacao.setMediana(mediana);
+	}
+	
+	public void setDesvioAbsolutoMediano(Double desvioAbsolutoMediano) {
+		this.avaliacao.setDesvioAbsolutoMediano(desvioAbsolutoMediano);
 	}
 	
 	public String toString() {
-		String retorno = "Metrica: " + this.nome + System.lineSeparator() + this.outliers.toString();
+		String retorno = "Metrica: " + this.nome + System.lineSeparator() + this.avaliacao.toString();
 		return retorno;
 	}
 
