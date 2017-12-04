@@ -20,12 +20,16 @@ public class Projeto {
 		return this.numeroDeLinhas;
 	}
 
-	public void atualizarNumeroDeClasses(int numeroDeClasses) {
+	public void setNumeroDeClasses(int numeroDeClasses) {
 		this.numeroDeClasses = numeroDeClasses;
 	}
 
-	public void atualizarNumeroDeLinhas(int numeroDeClasses) {
+	public void setNumeroDeLinhas(int numeroDeClasses) {
 		this.numeroDeLinhas = numeroDeClasses;
+	}
+
+	public String getNome() {
+		return this.nome;
 	}
 
 }
