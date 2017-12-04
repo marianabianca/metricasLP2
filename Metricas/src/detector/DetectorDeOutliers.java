@@ -67,8 +67,7 @@ public class DetectorDeOutliers {
 			}
 		}
 		
-		metrica.setOutliersPositivos(outliersPositivos);
-		metrica.setOutliersNegativos(outliersNegativos);
+		metrica.setOutliers(outliersPositivos, outliersNegativos);
 	}
 	
 	private double calculaMediana(List<Double> elementos) {

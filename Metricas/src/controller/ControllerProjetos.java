@@ -24,12 +24,6 @@ public class ControllerProjetos {
 		
 		this.inicializarSistema();
 	}
-
-	public String detectarOutliers() {
-		String outliers = detectorDeOutliers.imprimeOutliers(projetos);
-		
-		return outliers;
-	}
 	
 	private void inicializarSistema() {
 		this.adicionarProjetosAoController();
@@ -56,5 +50,11 @@ public class ControllerProjetos {
 		for (ExtratorDeMetricas extrator: extratoresDeMetricas) {
 			extrator.extrairMetricas(projetos, PATH_PROJETOS);
 		}
+	}
+	
+	public String detectarOutliers() {
+		String outliers = detectorDeOutliers.imprimeOutliers(projetos);
+		
+		return outliers;
 	}
 }

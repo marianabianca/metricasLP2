@@ -39,14 +39,6 @@ public class Metrica {
 		return this.elementos;
 	}
 	
-	public void setOutliersPositivos(List<String> outliersPositivos) {
-		this.avaliacao.setOuliersPositivos(outliersPositivos);
-	}
-	
-	public void setOutliersNegativos(List<String> outliersNegativos) {
-		this.avaliacao.setOuliersNegativos(outliersNegativos);
-	}
-	
 	public void setMediana(Double mediana) {
 		this.avaliacao.setMediana(mediana);
 	}
@@ -58,6 +50,10 @@ public class Metrica {
 	public String toString() {
 		String retorno = "Metrica: " + this.nome + System.lineSeparator() + this.avaliacao.toString();
 		return retorno;
+	}
+
+	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
+		this.avaliacao.setOutliers(outliersPositivos, outliersNegativos);
 	}
 
 }

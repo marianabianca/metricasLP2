@@ -22,20 +22,16 @@ public class Avaliacao {
 		this.desvioAbsolutoMediano = desvioAbsolutoMediano;
 	}
 	
-	public void setOuliersNegativos(List<String> outliersNegativos) {
-		this.outliers.setOuliersNegativos(outliersNegativos);
-	}
-	
-	public void setOuliersPositivos(List<String> outliersPositivos) {
-		this.outliers.setOuliersPositivos(outliersPositivos);
-	}
-	
 	public String toString() {
 		String ls = System.lineSeparator();
 		String retorno = "Mediana: " + this.mediana + ls +
-				"Desvio Absoluto Mediano: " + this.desvioAbsolutoMediano + ls +
+				"Desvio Absoluto Mediano: " + this.desvioAbsolutoMediano + ls + ls +
 				this.outliers.toString() + ls;
 		
 		return retorno;
+	}
+
+	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
+		this.outliers.setOutliers(outliersPositivos, outliersNegativos);
 	}
 }

@@ -13,14 +13,6 @@ public class Outliers {
 		this.outliersNegativos = new ArrayList<>();
 	}
 	
-	public void setOuliersPositivos(List<String> outliersPositivos) {
-		this.outliersPositivos = outliersPositivos;
-	}
-	
-	public void setOuliersNegativos(List<String> outliersNegativos) {
-		this.outliersNegativos = outliersNegativos;
-	}
-	
 	public String toString() {
 		String ls = System.lineSeparator();
 		String retorno = "Outliers positivos: " + ls;
@@ -36,6 +28,11 @@ public class Outliers {
 		}
 		
 		return retorno;		
+	}
+
+	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
+		this.outliersPositivos = outliersPositivos;
+		this.outliersNegativos = outliersNegativos;
 	}
 
 }
