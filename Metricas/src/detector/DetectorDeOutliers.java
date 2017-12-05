@@ -40,7 +40,10 @@ public class DetectorDeOutliers {
 			List<Double> metricaValores = metrica.getValoresElementos();
 			
 			Double mediana = this.calculaMediana(metricaValores);
+			metrica.setMediana(mediana);
+			
 			Double desvioAbsolutoMediano = this.getDesvioAbsolutoMediano(metricaValores, mediana);
+			metrica.setDesvioAbsolutoMediano(desvioAbsolutoMediano);
 			
 			this.descobreOutliers(metrica, mediana, desvioAbsolutoMediano);
 			
@@ -70,7 +73,7 @@ public class DetectorDeOutliers {
 		metrica.setOutliers(outliersPositivos, outliersNegativos);
 	}
 	
-	private double calculaMediana(List<Double> elementos) {
+	private Double calculaMediana(List<Double> elementos) {
 		double mediana;
 
 		List<Double> listaCopia = new ArrayList<>(elementos);
@@ -85,11 +88,11 @@ public class DetectorDeOutliers {
 		} else {
 			mediana = listaCopia.get(centro);
 		}
-		
+
 		return mediana;
 	}
 	
-	private double getDesvioAbsolutoMediano(List<Double> elementosPorProjeto, double mediana) {
+	private double getDesvioAbsolutoMediano(List<Double> elementosPorProjeto, Double mediana) {
 		double desvioAbsolutoMediano = 0;
 		
 		List<Double> distanciaDeCadaElementoAMediana = this.calculaDistanciaDeCadaElementoAMediana(elementosPorProjeto, mediana);
