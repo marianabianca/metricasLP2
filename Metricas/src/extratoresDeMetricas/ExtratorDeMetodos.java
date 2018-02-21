@@ -2,29 +2,30 @@ package extratoresDeMetricas;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import entidades.Projeto;
 
-public class ExtratorDeLinhas implements ExtratorDeMetricas{
+public class ExtratorDeMetodos implements ExtratorDeMetricas{
 
 	public void extrairMetricas(Map<String, Projeto> projetos, String path) {
 		Set<String> nomesProjetos = projetos.keySet();
 		
 		for (String nomeProjeto : nomesProjetos) {
 			Projeto projeto = projetos.get(nomeProjeto);
-			this.atualizarNumDeLinhasProjeto(projeto, path);
+			this.atualizarNumDeMetodosProjeto(projeto, path);
 		}
 	}
 	
-	private void atualizarNumDeLinhasProjeto(Projeto projeto, String path) {
+	private void atualizarNumDeMetodosProjeto(Projeto projeto, String path) {
 		String nomeProjeto = projeto.getNome();
 		String pathProjeto = criarPath(path, nomeProjeto);
-		int numeroDeLinhasDoProjeto = pegarNumLinhasProjeto(pathProjeto);
-		projeto.setNumeroDeLinhas(numeroDeLinhasDoProjeto);
+		int numeroDeMetodosDoProjeto = pegarNumMetodosProjeto(pathProjeto);
+		projeto.setNumeroDeMetodos(numeroDeMetodosDoProjeto);
 	}
 	
 	private String criarPath(String path, String elemento) {
@@ -32,23 +33,23 @@ public class ExtratorDeLinhas implements ExtratorDeMetricas{
 		return retorno;
 	}
 	
-	private int pegarNumLinhasProjeto(String path) {
-		int numeroDeLinhasDoProjeto = 0;
+	private int pegarNumMetodosProjeto(String path) {
+		int numeroDeMetodosDoProjeto = 0;
 		String[] conteudoDoDiretorio = pegarConteudoDoDiretorio(path);
 		
 		if (conteudoDoDiretorio != null && conteudoDoDiretorio.length > 0) {
-			numeroDeLinhasDoProjeto += numeroDeLinhasDoDiretorio(path, conteudoDoDiretorio);
+			numeroDeMetodosDoProjeto += numeroDeMetodosDoDiretorio(path, conteudoDoDiretorio);
 			
 			for (String elemento : conteudoDoDiretorio) {
 				String auxPath = criarPath(path, elemento);
 				
 				if (new File(auxPath).isDirectory()) {
-					numeroDeLinhasDoProjeto += pegarNumLinhasProjeto(auxPath);
+					numeroDeMetodosDoProjeto += pegarNumMetodosProjeto(auxPath);
 				}
 			}
 		}
 		
-		return numeroDeLinhasDoProjeto;
+		return numeroDeMetodosDoProjeto;
 	}
 	
 	private String[] pegarConteudoDoDiretorio(String pathInicial) {
@@ -58,23 +59,33 @@ public class ExtratorDeLinhas implements ExtratorDeMetricas{
 		return elementosDiretorio;
 	}
 	
-	public int numeroDeLinhasDoDiretorio(String diretorio, String[] conteudo) {
-		int numLinhas = 0;
+	public int numeroDeMetodosDoDiretorio(String diretorio, String[] conteudo) {
+		int numMetodos = 0;
 		
 		for (String elemento : conteudo) {
 			if (elemento.toLowerCase().endsWith(".java")) {
 				File file = new File(diretorio + File.separator + elemento);
-				numLinhas += this.contarNumeroDeLinhasClasse(numLinhas, file);
+				numMetodos += this.contarNumeroDeMetodosClasse(0, file);
 			}
 		}
 		
-		return numLinhas;
+		return numMetodos;
 	}
 	
-	private int contarNumeroDeLinhasClasse(int numeroDeLinhas, File file) {
+	private int contarNumeroDeMetodosClasse(int numeroDeMetodos, File file) {
+		List<String> linhas = new ArrayList<>();
+		String regex = "[^=]*\\s*[^=]+\\s+[^=]+[(][^=]*[)]?\\s*[{]?\\s*[}]?";
+		
 		try {
-			numeroDeLinhas = (int) Files.lines(file.toPath(), StandardCharsets.ISO_8859_1).count();
-			return numeroDeLinhas;
+			linhas = Files.readAllLines(file.toPath());
+			
+			for (String linha: linhas) {
+				if (linha.matches(regex)) {
+					numeroDeMetodos += 1;
+				}
+			}
+			
+			return numeroDeMetodos;			
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
