@@ -16,6 +16,8 @@ public class TesteRegexMetodo {
 		String assinaturaMetodo5 = "void atualizarNumDeClassesProjeto(";
 		String assinaturaMetodo6 = "void atualizarNumDeClassesProjeto() {}";
 		String assinaturaMetodo7 = "void atualizarNumDeClassesProjeto() { }";
+		String assinaturaMetodo8 = "private void atualizarNumDeClassesProjeto(Projeto projeto, String path) throws Exception {";
+		String assinaturaMetodo9 = "private void atualizarNumDeClassesProjeto(Projeto projeto, String path) throws Exception";
 		String assinaturaFor = "for(i i: i) {";
 		String chamadaDeMetodo = "nome = pegarNome()";
 		
@@ -28,6 +30,8 @@ public class TesteRegexMetodo {
 		Assert.assertTrue(assinaturaMetodo5.matches(regex));
 		Assert.assertTrue(assinaturaMetodo6.matches(regex));
 		Assert.assertTrue(assinaturaMetodo7.matches(regex));
+		Assert.assertTrue(assinaturaMetodo8.matches(regex));
+		Assert.assertTrue(assinaturaMetodo9.matches(regex));
 		
 		Assert.assertFalse(assinaturaFor.matches(regex));
 		Assert.assertFalse(chamadaDeMetodo.matches(regex));
