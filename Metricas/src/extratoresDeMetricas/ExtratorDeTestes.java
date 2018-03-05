@@ -11,22 +11,22 @@ import java.util.Set;
 
 import entidades.Projeto;
 
-public class ExtratorDeMetodos implements ExtratorDeMetricas{
+public class ExtratorDeTestes implements ExtratorDeMetricas{
 
 	public void extrairMetricas(Map<String, Projeto> projetos, String path) {
 		Set<String> nomesProjetos = projetos.keySet();
 		
 		for (String nomeProjeto : nomesProjetos) {
 			Projeto projeto = projetos.get(nomeProjeto);
-			this.atualizarNumDeMetodosProjeto(projeto, path);
+			this.atualizarNumDeTestesProjeto(projeto, path);
 		}
 	}
 	
-	private void atualizarNumDeMetodosProjeto(Projeto projeto, String path) {
+	private void atualizarNumDeTestesProjeto(Projeto projeto, String path) {
 		String nomeProjeto = projeto.getNome();
 		String pathProjeto = criarPath(path, nomeProjeto);
-		int numeroDeMetodosDoProjeto = pegarNumTestesProjeto(pathProjeto);
-		projeto.setNumeroDeMetodos(numeroDeMetodosDoProjeto);
+		int numeroDeTestesDoProjeto = pegarNumTestesProjeto(pathProjeto);
+		projeto.setNumeroDeTestes(numeroDeTestesDoProjeto);
 	}
 	
 	private String criarPath(String path, String elemento) {
@@ -75,13 +75,13 @@ public class ExtratorDeMetodos implements ExtratorDeMetricas{
 	
 	private int contarNumeroDeTestesClasse(int numeroDeTestes, File file) {
 		List<String> linhas = new ArrayList<>();
-		String regex = "[^=]*\\s*[^=]+\\s+[^=]+[(][^=]*[)]?\\s*[{]?\\s*[}]?";
+		String testString = "@Test";
 		
 		try {
 			linhas = Files.readAllLines(file.toPath(),  StandardCharsets.ISO_8859_1);
 			
 			for (String linha: linhas) {
-				if (linha.matches(regex)) {
+				if (linha.contains(testString)) {
 					numeroDeTestes += 1;
 				}
 			}

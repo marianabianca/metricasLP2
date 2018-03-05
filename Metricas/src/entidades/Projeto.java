@@ -6,6 +6,7 @@ public class Projeto {
 	private int numeroDeClasses;
 	private int numeroDeLinhas;
 	private int numeroDeMetodos;
+	private int numeroDeTestes;
 	
 	public Projeto(String nome) {
 		this.nome = nome;
@@ -25,6 +26,10 @@ public class Projeto {
 	public int getNumeroDeMetodos() {
 		return this.numeroDeMetodos;
 	}
+	
+	public int getNumeroDeTestes() {
+		return this.numeroDeTestes;
+	}
 
 	public void setNumeroDeClasses(int numeroDeClasses) {
 		this.numeroDeClasses = numeroDeClasses;
@@ -36,6 +41,10 @@ public class Projeto {
 	
 	public void setNumeroDeMetodos(int numeroDeMetodos) {
 		this.numeroDeMetodos = numeroDeMetodos;
+	}
+	
+	public void setNumeroDeTestes(int numeroDeTestes) {
+		this.numeroDeTestes = numeroDeTestes;
 	}
 
 	public String getNome() {

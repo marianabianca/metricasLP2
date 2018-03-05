@@ -6,7 +6,8 @@ public class FactoryExtrator {
 		ExtratorDeMetricas[] extratores = {
 				new ExtratorDeClasses(),
 				new ExtratorDeLinhas(),
-				new ExtratorDeMetodos()
+				new ExtratorDeMetodos(),
+				new ExtratorDeTestes()
 		};
 		
 		return extratores;

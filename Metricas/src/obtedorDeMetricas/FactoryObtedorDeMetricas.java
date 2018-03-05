@@ -6,7 +6,8 @@ public class FactoryObtedorDeMetricas {
 		ObtedorDeMetricas[] obtedoresDeMetricas = {
 				new ObtedorDeClasses(),
 				new ObtedorDeLinhas(),
-				new ObtedorDeMetodos()
+				new ObtedorDeMetodos(),
+				new ObtedorDeTestes()
 		};
 		
 		return obtedoresDeMetricas;

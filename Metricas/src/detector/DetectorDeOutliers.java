@@ -120,12 +120,12 @@ public class DetectorDeOutliers {
 	private boolean ehOutlierPositivo(Double elemento, double mediana, double desvioAbsolutoMediano) {		
 		double zScore = (0.6745 * (elemento - mediana)) / desvioAbsolutoMediano;
 		
-		return zScore > 3.5;
+		return zScore > 2.5;
 	}
 	
 	private boolean ehOutlierNegativo(Double elemento, double mediana, double desvioAbsolutoMedio) {		
 		double zScore = (0.6745 * (elemento - mediana)) / desvioAbsolutoMedio;
 		
-		return zScore < -3.5;
+		return zScore < -2.5;
 	}
 }

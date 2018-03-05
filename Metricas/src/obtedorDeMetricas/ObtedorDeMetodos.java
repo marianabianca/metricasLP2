@@ -18,7 +18,6 @@ public class ObtedorDeMetodos implements ObtedorDeMetricas {
 		for (String nomeDoProjeto : projetos.keySet()) {
 			Projeto projeto = projetos.get(nomeDoProjeto);
 			double numeroDeMetodosDoProjeto = projeto.getNumeroDeMetodos();
-			
 			metrica.adicionarElemento(nomeDoProjeto, numeroDeMetodosDoProjeto);
 		}
 		
