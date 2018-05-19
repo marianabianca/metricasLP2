@@ -25,7 +25,7 @@ public class ExtratorDeMetodos implements ExtratorDeMetricas{
 	private void atualizarNumDeMetodosProjeto(Projeto projeto, String path) {
 		String nomeProjeto = projeto.getNome();
 		String pathProjeto = criarPath(path, nomeProjeto);
-		int numeroDeMetodosDoProjeto = pegarNumTestesProjeto(pathProjeto);
+		int numeroDeMetodosDoProjeto = pegarNumMetodosProjeto(pathProjeto);
 		projeto.setNumeroDeMetodos(numeroDeMetodosDoProjeto);
 	}
 	
@@ -34,23 +34,23 @@ public class ExtratorDeMetodos implements ExtratorDeMetricas{
 		return retorno;
 	}
 	
-	private int pegarNumTestesProjeto(String path) {
-		int numeroDeTestesDoProjeto = 0;
+	private int pegarNumMetodosProjeto(String path) {
+		int numeroDeMetodosDoProjeto = 0;
 		String[] conteudoDoDiretorio = pegarConteudoDoDiretorio(path);
 		
 		if (conteudoDoDiretorio != null && conteudoDoDiretorio.length > 0) {
-			numeroDeTestesDoProjeto += numeroDeTestesDoDiretorio(path, conteudoDoDiretorio);
+			numeroDeMetodosDoProjeto += numeroDeMetodosDoDiretorio(path, conteudoDoDiretorio);
 			
 			for (String elemento : conteudoDoDiretorio) {
 				String auxPath = criarPath(path, elemento);
 				
 				if (new File(auxPath).isDirectory()) {
-					numeroDeTestesDoProjeto += pegarNumTestesProjeto(auxPath);
+					numeroDeMetodosDoProjeto += pegarNumMetodosProjeto(auxPath);
 				}
 			}
 		}
 		
-		return numeroDeTestesDoProjeto;
+		return numeroDeMetodosDoProjeto;
 	}
 	
 	private String[] pegarConteudoDoDiretorio(String pathInicial) {
@@ -60,20 +60,20 @@ public class ExtratorDeMetodos implements ExtratorDeMetricas{
 		return elementosDiretorio;
 	}
 	
-	public int numeroDeTestesDoDiretorio(String diretorio, String[] conteudo) {
-		int numTestes = 0;
+	public int numeroDeMetodosDoDiretorio(String diretorio, String[] conteudo) {
+		int numMetodos = 0;
 		
 		for (String elemento : conteudo) {
 			if (elemento.toLowerCase().endsWith(".java")) {
 				File file = new File(diretorio + File.separator + elemento);
-				numTestes += this.contarNumeroDeTestesClasse(0, file);
+				numMetodos += this.contarNumeroDeMetodosClasse(0, file);
 			}
 		}
 		
-		return numTestes;
+		return numMetodos;
 	}
 	
-	private int contarNumeroDeTestesClasse(int numeroDeTestes, File file) {
+	private int contarNumeroDeMetodosClasse(int numeroDeMetodos, File file) {
 		List<String> linhas = new ArrayList<>();
 		String regex = "[^=]*\\s*[^=]+\\s+[^=]+[(][^=]*[)]?\\s*[{]?\\s*[}]?";
 		
@@ -82,11 +82,11 @@ public class ExtratorDeMetodos implements ExtratorDeMetricas{
 			
 			for (String linha: linhas) {
 				if (linha.matches(regex)) {
-					numeroDeTestes += 1;
+					numeroDeMetodos += 1;
 				}
 			}
 			
-			return numeroDeTestes;			
+			return numeroDeMetodos;			
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
