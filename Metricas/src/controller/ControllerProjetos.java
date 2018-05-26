@@ -10,7 +10,7 @@ import extratoresDeMetricas.ExtratorDeMetricas;
 import extratoresDeMetricas.FactoryExtrator;
 
 public class ControllerProjetos {
-	static final String PATH_PROJETOS = "Projetos";
+	private static final String PATH_PROJETOS = "Projetos";
 	private Map<String, Projeto> projetos;
 	private DetectorDeOutliers detectorDeOutliers;
 	private ExtratorDeMetricas[] extratoresDeMetricas;
