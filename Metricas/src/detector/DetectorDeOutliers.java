@@ -13,7 +13,7 @@ import obtedorDeMetricas.ObtedorDeMetricas;
 public class DetectorDeOutliers {
 	
 	private static final String LS = System.lineSeparator();
-	ObtedorDeMetricas[] obtedoresDeMetricas;
+	private ObtedorDeMetricas[] obtedoresDeMetricas;
 	
 	public DetectorDeOutliers() {
 		FactoryObtedorDeMetricas factoryObtedorDeMetricas = new FactoryObtedorDeMetricas();
