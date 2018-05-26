@@ -25,11 +25,18 @@ public class ControllerProjetos {
 		this.inicializarSistema();
 	}
 	
+	/**
+	 * Inicializa o sistema.
+	 */
 	private void inicializarSistema() {
 		this.adicionarProjetosAoController();
 		this.extrairMetricas();
 	}
 	
+	/**
+	 * Adiciona todos os projetos presentes no diretório
+	 * de projetos ao Controller.
+	 */
 	private void adicionarProjetosAoController() {
 		String[] nomesProjetos = this.pegarNomesProjetos();
 		
@@ -39,6 +46,10 @@ public class ControllerProjetos {
 		}
 	}
 	
+	/**
+	 * Extrai os nomes de todos os projetos do diretório.
+	 * @return Array com os nomes de todos os projetos
+	 */
 	private String[] pegarNomesProjetos() {
 		File diretorioInicial = new File(PATH_PROJETOS);
 		String[] nomesProjetos = diretorioInicial.list();
@@ -46,12 +57,20 @@ public class ControllerProjetos {
 		return nomesProjetos;
 	}
 	
+	/**
+	 * Executa os extratores de métricas para todos os projetos
+	 * existentes.
+	 */
 	private void extrairMetricas() {
 		for (ExtratorDeMetricas extrator: extratoresDeMetricas) {
 			extrator.extrairMetricas(projetos, PATH_PROJETOS);
 		}
 	}
 	
+	/**
+	 * Detecta os outliers presentes na lista de projetos.
+	 * @return String final que apresenta todos os outliers encontrados.
+	 */
 	public String detectarOutliers() {
 		String outliers = detectorDeOutliers.imprimeOutliers(projetos);
 		
