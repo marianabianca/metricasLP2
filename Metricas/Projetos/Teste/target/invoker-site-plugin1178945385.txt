@@ -1,0 +1,7 @@
+Invoking Maven for the goals: [site] with properties={linkcheck.skip=true}
+
+M2_HOME=C:\Program Files\apache-maven-3.5.3\bin\..
+MAVEN_OPTS=null
+JAVA_HOME=C:\Java\jdk1.8.0_151\jre\..
+JAVA_OPTS=null
+

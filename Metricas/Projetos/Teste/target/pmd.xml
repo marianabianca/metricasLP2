@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd xmlns="http://pmd.sourceforge.net/report/2.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://pmd.sourceforge.net/report/2.0.0 http://pmd.sourceforge.net/report_2_0_0.xsd"
+    version="6.4.0" timestamp="2018-06-25T21:16:40.900">
+<file name="C:\Users\mathe\Documents\P2\metricasLP2\Metricas\Projetos\Teste\src\package1\Classe1.java">
+<violation beginline="5" endline="5" begincolumn="24" endcolumn="31" rule="UnusedPrivateField" ruleset="Best Practices" package="package1" class="Classe1" variable="atributo" externalInfoUrl="https://pmd.github.io/pmd-6.4.0/pmd_rules_java_bestpractices.html#unusedprivatefield" priority="3">
+Avoid unused private fields such as 'atributo'.
+</violation>
+</file>
+</pmd>

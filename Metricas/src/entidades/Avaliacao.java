@@ -22,6 +22,7 @@ public class Avaliacao {
 		this.desvioAbsolutoMediano = desvioAbsolutoMediano;
 	}
 	
+	//A complexidade ciclomática exibe a média e não a mediana
 	public String toString() {
 		String ls = System.lineSeparator();
 		String retorno = "Mediana: " + this.mediana + ls +
