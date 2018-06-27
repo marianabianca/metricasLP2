@@ -36,29 +36,9 @@ public class ExtratorDeCompexidadeCiclomatica implements ExtratorDeMetricas {
 	 */
 	private void atualizarComplexidadeCiclomatica(Projeto projeto, String path) {
 		String nomeProjeto = projeto.getNome();
-		String pathProjeto = criarPath(path, nomeProjeto);
-		String pathReport = buscaJavancss(pathProjeto);
+		String pathReport = criarPath(path, nomeProjeto);
 		double complexidadeCiclomatica = pegarComplexidadeCiclomatica(pathReport);
 		projeto.setComplexidadeCiclomatica(complexidadeCiclomatica);
-	}
-
-	/**
-	 * REMOVER ISSO AQUI
-	 * Método que busca o caminho do arquivo que contém o Java NCSS Report, 
-	 * o qual possui a métrica de complexidade ciclomática
-	 * 
-	 * @param pathProjeto - Caminho até o diretório do projeto
-	 * @return
-	 */
-	private String buscaJavancss(String pathProjeto) {
-		String[] list = pegarConteudoDoDiretorio(pathProjeto);
-		String pathReport = pathProjeto;
-		for (String elemento : list) {
-			if (elemento.equals("javancss-raw-report.xml")) {
-				pathReport += File.separator + elemento;
-			}
-		}
-		return pathReport;
 	}
 	
 	/**
@@ -75,16 +55,16 @@ public class ExtratorDeCompexidadeCiclomatica implements ExtratorDeMetricas {
 			FileReader fr = new FileReader(f);
 			String line;
 			bufferedReader = new BufferedReader(fr);
-			int medias = 0;
+			int linhasRestantes = 0;
 			while ((line = bufferedReader.readLine()) != null) {
-				if (medias == 1) {
+				if (linhasRestantes == 1) {
 					ccn = line.trim().substring(5,9);
 					break;
-				}else if (medias > 1) {
-					medias -= 1;
+				}else if (linhasRestantes > 1) {
+					linhasRestantes -= 1;
 				}
 				if (line.trim().equals("<function_averages>")) {
-					medias = 2;
+					linhasRestantes = 2;
 				}
 			}
 		} catch (IOException ex) {
@@ -102,18 +82,9 @@ public class ExtratorDeCompexidadeCiclomatica implements ExtratorDeMetricas {
 	 * @return Caminho até o arquivo `javancss-raw-report.xml`
 	 */
 	private String criarPath(String path, String elemento) {
-		String retorno = path + File.separator + elemento + File.separator + "target";
+		String retorno = path + File.separator + elemento + File.separator + "target"
+				+ File.separator + "javancss-raw-report.xml";
 		return retorno;
-	}
-
-	/**
-	 * REMOVER ISSO AQUI TAMBÉM
-	 */
-	private String[] pegarConteudoDoDiretorio(String pathInicial) {
-		File diretorioInicial = new File(pathInicial);
-		String[] elementosDiretorio = diretorioInicial.list();
-
-		return elementosDiretorio;
 	}
 
 }
