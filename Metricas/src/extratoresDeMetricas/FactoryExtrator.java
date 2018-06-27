@@ -7,7 +7,8 @@ public class FactoryExtrator {
 				new ExtratorDeClasses(),
 				new ExtratorDeLinhas(),
 				new ExtratorDeMetodos(),
-				new ExtratorDeTestes()
+				new ExtratorDeTestes(),
+				new ExtratorDeCompexidadeCiclomatica()
 		};
 		
 		return extratores;
