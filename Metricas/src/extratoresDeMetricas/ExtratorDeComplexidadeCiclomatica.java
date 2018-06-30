@@ -9,7 +9,7 @@ import java.util.Set;
 
 import entidades.Projeto;
 
-public class ExtratorDeCompexidadeCiclomatica implements ExtratorDeMetricas {
+public class ExtratorDeComplexidadeCiclomatica implements ExtratorDeMetricas {
 
 	private BufferedReader bufferedReader;
 
@@ -86,5 +86,4 @@ public class ExtratorDeCompexidadeCiclomatica implements ExtratorDeMetricas {
 				+ File.separator + "javancss-raw-report.xml";
 		return retorno;
 	}
-
 }

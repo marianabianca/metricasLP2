@@ -8,7 +8,8 @@ public class FactoryObtedorDeMetricas {
 				new ObtedorDeLinhas(),
 				new ObtedorDeMetodos(),
 				new ObtedorDeTestes(),
-				new ObtedorDeComplexidadeCiclomatica()
+				new ObtedorDeComplexidadeCiclomatica(),
+				new ObtedorDeComplexidadeCiclomaticaMaxima()
 		};
 		
 		return obtedoresDeMetricas;

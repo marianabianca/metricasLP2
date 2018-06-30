@@ -8,7 +8,8 @@ public class FactoryExtrator {
 				new ExtratorDeLinhas(),
 				new ExtratorDeMetodos(),
 				new ExtratorDeTestes(),
-				new ExtratorDeCompexidadeCiclomatica()
+				new ExtratorDeComplexidadeCiclomatica(),
+				new ExtratorDeComplexidadeCiclomaticaMaxima()
 		};
 		
 		return extratores;
