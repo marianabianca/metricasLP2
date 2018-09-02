@@ -32,6 +32,16 @@ public class DetectorDeOutliers {
 		return resultado;
 	}
 	
+	public String getOutliersCsv(Map<String, Projeto> projetos) {
+		String resultado = "";
+		List<Metrica> metricas = this.detectarOutliers(projetos);
+		
+		for (Metrica metrica : metricas) {
+			resultado += metrica.toStringCsv() + "\n";
+		}
+		return resultado;
+	}
+	
 	private List<Metrica> detectarOutliers(Map<String, Projeto> projetos) {
 		List<Metrica> metricas = new ArrayList<>();
 		

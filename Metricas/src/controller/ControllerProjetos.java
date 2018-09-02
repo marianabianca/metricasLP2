@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ public class ControllerProjetos {
 	private Map<String, Projeto> projetos;
 	private DetectorDeOutliers detectorDeOutliers;
 	private ExtratorDeMetricas[] extratoresDeMetricas;
+	private FileWriter outliersCsv;
 	
 	public ControllerProjetos() {
 		projetos = new HashMap<>();
@@ -70,9 +73,17 @@ public class ControllerProjetos {
 	/**
 	 * Detecta os outliers presentes na lista de projetos.
 	 * @return String final que apresenta todos os outliers encontrados.
+	 * @throws IOException 
 	 */
-	public String detectarOutliers() {
+	public String detectarOutliers() throws IOException {
+		outliersCsv = new FileWriter("outliers.csv");
+		StringBuilder sb = new StringBuilder();
+		sb.append("Metrica,Mediana,Desvio Absoluto Mediano, Outliers positivos, Outliers negativos\n");
+		
 		String outliers = detectorDeOutliers.imprimeOutliers(projetos);
+		sb.append(detectorDeOutliers.getOutliersCsv(projetos));
+		outliersCsv.write(sb.toString());
+		outliersCsv.close();
 		
 		return outliers;
 	}

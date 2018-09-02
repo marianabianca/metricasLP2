@@ -51,6 +51,11 @@ public class Metrica {
 		String retorno = "Metrica: " + this.nome + System.lineSeparator() + this.avaliacao.toString();
 		return retorno;
 	}
+	
+	public String toStringCsv() {
+		String resultado = this.nome + "," + this.avaliacao.toStringCsv();
+		return resultado;
+	}
 
 	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
 		this.avaliacao.setOutliers(outliersPositivos, outliersNegativos);

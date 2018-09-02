@@ -29,6 +29,20 @@ public class Outliers {
 		
 		return retorno;		
 	}
+	
+	public String toStringCsv() {
+		String resultado = "";
+		for (String outlier : outliersPositivos) { 
+			resultado += outlier + " ";
+		}
+		resultado += ",";
+		
+		for (String outlier: outliersNegativos) {
+			resultado += outlier + " ";
+		}
+		
+		return resultado;
+	}
 
 	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
 		this.outliersPositivos = outliersPositivos;
