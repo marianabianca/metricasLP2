@@ -23,18 +23,13 @@ public class ControllerProjetos {
 		FactoryExtrator factoryExtrator = new FactoryExtrator();
 		extratoresDeMetricas = factoryExtrator.getExtratores();
 		
-		try {
-			this.inicializarSistema();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		this.inicializarSistema();
 	}
 	
 	/**
 	 * Inicializa o sistema.
-	 * @throws IOException 
 	 */
-	private void inicializarSistema() throws IOException {
+	private void inicializarSistema() {
 		this.adicionarProjetosAoController();
 		this.extrairMetricas();
 	}
@@ -66,7 +61,6 @@ public class ControllerProjetos {
 	/**
 	 * Executa os extratores de métricas para todos os projetos
 	 * existentes.
-	 * @throws IOException 
 	 */
 	private void extrairMetricas() {
 		for (ExtratorDeMetricas extrator: extratoresDeMetricas) {
@@ -75,7 +69,7 @@ public class ControllerProjetos {
 	}
 	
 	/**
-	 * Detecta os outliers presentes na lista de projetos.
+	 * Detecta os outliers presentes na lista de projetos e gera csv para cada métrica.
 	 * @return String final que apresenta todos os outliers encontrados.
 	 * @throws IOException 
 	 */
