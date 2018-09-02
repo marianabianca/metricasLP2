@@ -7,16 +7,12 @@ public class Projeto {
 	private int numeroDeLinhas;
 	private int numeroDeMetodos;
 	private int numeroDeTestes;
-	private double complexidadeCiclomatica;
-	private double maxComplexidadeCiclomatica;
 	
 	public Projeto(String nome) {
 		this.nome = nome;
 		this.numeroDeClasses = 0;
 		this.numeroDeLinhas = 0;
 		this.numeroDeMetodos = 0;
-		this.complexidadeCiclomatica = 0;
-		this.maxComplexidadeCiclomatica = 0;
 	}
 
 	public int getNumeroDeClasses() {
@@ -53,22 +49,6 @@ public class Projeto {
 
 	public String getNome() {
 		return this.nome;
-	}
-
-	public double getComplexidadeCiclomatica() {
-		return complexidadeCiclomatica;
-	}
-
-	public void setComplexidadeCiclomatica(double complexidadeCiclomatica) {
-		this.complexidadeCiclomatica = complexidadeCiclomatica;
-	}
-	
-	public double getMaxComplexidadeCiclomatica() {
-		return maxComplexidadeCiclomatica;
-	}
-
-	public void setMaxComplexidadeCiclomatica(double maxComplexidadeCiclomatica) {
-		this.maxComplexidadeCiclomatica = maxComplexidadeCiclomatica;		
 	}
 
 }

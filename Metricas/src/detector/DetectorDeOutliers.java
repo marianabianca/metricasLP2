@@ -1,5 +1,7 @@
 package detector;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -32,16 +34,33 @@ public class DetectorDeOutliers {
 		return resultado;
 	}
 	
-	public String getOutliersCsv(Map<String, Projeto> projetos) {
-		String resultado = "";
+	public void gerarOutliersCsv(Map<String, Projeto> projetos) throws IOException {
 		List<Metrica> metricas = this.detectarOutliers(projetos);
 		
 		for (Metrica metrica : metricas) {
-			resultado += metrica.toStringCsv() + "\n";
+			FileWriter metricaCsv = new FileWriter(metrica.getNome().toLowerCase() + ".csv");
+			StringBuilder sb = new StringBuilder();
+			sb.append("Projeto,Métrica,Outlier Positivo,Outlier Negativo\n");
+			for (String nomeDoProjeto : projetos.keySet()) {
+				Projeto projeto = projetos.get(nomeDoProjeto);
+				int metricaDoProjeto = this.getMetricaProjeto(projeto, metrica.getNome());
+				boolean outlierPositivo = metrica.getOutliersPositivos().contains(nomeDoProjeto);
+				boolean outlierNegativo = metrica.getOutliersNegativos().contains(nomeDoProjeto);
+				sb.append(nomeDoProjeto + "," + metricaDoProjeto + "," + outlierPositivo + "," + outlierNegativo + "\n");
+			}
+			metricaCsv.write(sb.toString());
+			metricaCsv.close();
 		}
-		return resultado;
 	}
 	
+	private int getMetricaProjeto(Projeto projeto, String nome) {
+		if (nome.equals("Classes")) return projeto.getNumeroDeClasses();
+		if (nome.equals("Linhas")) return projeto.getNumeroDeLinhas();
+		if (nome.equals("Metodos")) return projeto.getNumeroDeMetodos();
+		if (nome.equals("Testes")) return projeto.getNumeroDeTestes();
+		return 0;
+	}
+
 	private List<Metrica> detectarOutliers(Map<String, Projeto> projetos) {
 		List<Metrica> metricas = new ArrayList<>();
 		

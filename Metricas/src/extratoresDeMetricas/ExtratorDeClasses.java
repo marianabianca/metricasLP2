@@ -1,6 +1,7 @@
 package extratoresDeMetricas;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ public class ExtratorDeClasses implements ExtratorDeMetricas {
 	 * 
 	 * @param projetos - Projetos que serão medidos
 	 * @param path - Caminho até a pasta dos projetos
+	 * @throws IOException 
 	 */
 	public void extrairMetricas(Map<String, Projeto> projetos, String path) {
 		Set<String> nomesProjetos = projetos.keySet();

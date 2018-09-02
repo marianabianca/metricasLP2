@@ -31,9 +31,12 @@ public class Avaliacao {
 		return retorno;
 	}
 	
-	public String toStringCsv() {
-		String resultado = this.mediana + "," + this.desvioAbsolutoMediano + "," + this.outliers.toStringCsv();
-		return resultado;
+	public List<String> getOutliersPositivos() {
+		return this.outliers.getOutliersPositivos();
+	}
+	
+	public List<String> getOutliersNegativos() {
+		return this.outliers.getOutliersNegativos();
 	}
 
 	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {

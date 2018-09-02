@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,6 @@ public class ControllerProjetos {
 	private Map<String, Projeto> projetos;
 	private DetectorDeOutliers detectorDeOutliers;
 	private ExtratorDeMetricas[] extratoresDeMetricas;
-	private FileWriter outliersCsv;
 	
 	public ControllerProjetos() {
 		projetos = new HashMap<>();
@@ -25,13 +23,18 @@ public class ControllerProjetos {
 		FactoryExtrator factoryExtrator = new FactoryExtrator();
 		extratoresDeMetricas = factoryExtrator.getExtratores();
 		
-		this.inicializarSistema();
+		try {
+			this.inicializarSistema();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
 	 * Inicializa o sistema.
+	 * @throws IOException 
 	 */
-	private void inicializarSistema() {
+	private void inicializarSistema() throws IOException {
 		this.adicionarProjetosAoController();
 		this.extrairMetricas();
 	}
@@ -63,6 +66,7 @@ public class ControllerProjetos {
 	/**
 	 * Executa os extratores de métricas para todos os projetos
 	 * existentes.
+	 * @throws IOException 
 	 */
 	private void extrairMetricas() {
 		for (ExtratorDeMetricas extrator: extratoresDeMetricas) {
@@ -76,14 +80,8 @@ public class ControllerProjetos {
 	 * @throws IOException 
 	 */
 	public String detectarOutliers() throws IOException {
-		outliersCsv = new FileWriter("outliers.csv");
-		StringBuilder sb = new StringBuilder();
-		sb.append("Metrica,Mediana,Desvio Absoluto Mediano, Outliers positivos, Outliers negativos\n");
-		
 		String outliers = detectorDeOutliers.imprimeOutliers(projetos);
-		sb.append(detectorDeOutliers.getOutliersCsv(projetos));
-		outliersCsv.write(sb.toString());
-		outliersCsv.close();
+		detectorDeOutliers.gerarOutliersCsv(projetos);
 		
 		return outliers;
 	}
