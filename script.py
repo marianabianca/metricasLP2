@@ -8,6 +8,12 @@ import os
 
 from sys import platform as _platform
 
+import unicodedata
+
+def strip_accents(s):
+   return ''.join(c for c in unicodedata.normalize('NFD', s)
+                  if unicodedata.category(c) != 'Mn')
+
 files = os.listdir('.')
 for file_ in files:
 	if file_.lower().endswith('.zip'):
@@ -72,16 +78,8 @@ junit_pattern = re.compile(b'import.*junit.*')
 
 for file_ in files:
     if file_.lower().endswith('.zip'):
-        try:
-            zfile = zipfile.ZipFile(file_)
-            student = file_.split("\.")[0]
-            pname_match = project_p.match(file_)
-            if not pname_match:
-                continue
-            student = pname_match.group(1)
-        except:
-            print("erro no zip >>>> : " + file_)
-            continue
+        zfile = zipfile.ZipFile(file_)
+        student = strip_accents(file_.split("_")[0])
         content = ''
         new_dir = {}
         for java_file in findjava(zfile.namelist()):
