@@ -29,6 +29,14 @@ public class Outliers {
 		
 		return retorno;		
 	}
+	
+	public List<String> getOutliersPositivos() {
+		return this.outliersPositivos;
+	}
+	
+	public List<String> getOutliersNegativos() {
+		return this.outliersNegativos;
+	}
 
 	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
 		this.outliersPositivos = outliersPositivos;

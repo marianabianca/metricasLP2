@@ -1,5 +1,6 @@
 package detector;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,10 +15,12 @@ public class DetectorDeOutliers {
 	
 	private static final String LS = System.lineSeparator();
 	private ObtedorDeMetricas[] obtedoresDeMetricas;
+	private GeradorCsv geradorCsv;
 	
 	public DetectorDeOutliers() {
 		FactoryObtedorDeMetricas factoryObtedorDeMetricas = new FactoryObtedorDeMetricas();
 		obtedoresDeMetricas = factoryObtedorDeMetricas.getObtedoresDeMetricas();
+		geradorCsv = new GeradorCsv();
 	}
 	
 	public String imprimeOutliers(Map<String, Projeto> projetos) {
@@ -32,6 +35,11 @@ public class DetectorDeOutliers {
 		return resultado;
 	}
 	
+	public void gerarOutliersCsv(Map<String, Projeto> projetos) throws IOException {
+		List<Metrica> metricas = this.detectarOutliers(projetos);
+		this.geradorCsv.gerarOutliersCsv(projetos, metricas);
+	}
+
 	private List<Metrica> detectarOutliers(Map<String, Projeto> projetos) {
 		List<Metrica> metricas = new ArrayList<>();
 		

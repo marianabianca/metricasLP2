@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,11 +69,13 @@ public class ControllerProjetos {
 	}
 	
 	/**
-	 * Detecta os outliers presentes na lista de projetos.
+	 * Detecta os outliers presentes na lista de projetos e gera csv para cada métrica.
 	 * @return String final que apresenta todos os outliers encontrados.
+	 * @throws IOException 
 	 */
-	public String detectarOutliers() {
+	public String detectarOutliers() throws IOException {
 		String outliers = detectorDeOutliers.imprimeOutliers(projetos);
+		detectorDeOutliers.gerarOutliersCsv(projetos);
 		
 		return outliers;
 	}

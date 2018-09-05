@@ -22,7 +22,6 @@ public class Avaliacao {
 		this.desvioAbsolutoMediano = desvioAbsolutoMediano;
 	}
 	
-	//A complexidade ciclomática exibe a média e não a mediana
 	public String toString() {
 		String ls = System.lineSeparator();
 		String retorno = "Mediana: " + this.mediana + ls +
@@ -30,6 +29,14 @@ public class Avaliacao {
 				this.outliers.toString() + ls;
 		
 		return retorno;
+	}
+	
+	public List<String> getOutliersPositivos() {
+		return this.outliers.getOutliersPositivos();
+	}
+	
+	public List<String> getOutliersNegativos() {
+		return this.outliers.getOutliersNegativos();
 	}
 
 	public void setOutliers(List<String> outliersPositivos, List<String> outliersNegativos) {
