@@ -78,8 +78,12 @@ junit_pattern = re.compile(b'import.*junit.*')
 
 for file_ in files:
     if file_.lower().endswith('.zip'):
-        zfile = zipfile.ZipFile(file_)
-        student = strip_accents(file_.split("_")[0])
+        try:
+            zfile = zipfile.ZipFile(file_)
+            student = strip_accents(file_.split("_")[0])
+        except:
+            print("erro no zip >>> : " + file_)
+            continue
         content = ''
         new_dir = {}
         for java_file in findjava(zfile.namelist()):
