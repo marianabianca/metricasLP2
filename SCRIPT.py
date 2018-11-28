@@ -7,9 +7,12 @@ import zipfile
 import unicodedata
 
 
-def strip_accents(s):
-   return ''.join(c for c in unicodedata.normalize('NFD', s)
-                  if unicodedata.category(c) != 'Mn')
+def strip_accents(text):
+    text = unicode(text, 'utf-8')
+    text = unicodedata.normalize('NFD', text)
+    text = text.encode('ascii', 'ignore')
+    text = text.decode("utf-8")
+    return str(text)
 
 
 token = str(sys.argv[1])
