@@ -6,12 +6,16 @@ import os
 import zipfile
 import unicodedata
 
+# coding: utf-8
 
 def strip_accents(text):
     text = unicode(text, 'utf-8')
+    print text, "unicode"
     text = unicodedata.normalize('NFD', text)
+    print text, "normalizou"
     text = text.encode('ascii', 'ignore')
     text = text.decode("utf-8")
+    print text, "decode"
     return str(text)
 
 
@@ -63,7 +67,7 @@ alunos = {}
 # coloca ids e nomes no dicionario
 for a in csv_alunos:
 	if a[0] != 'id':
-		alunos[a[0]] = a[1].replace(" ", "_")
+		alunos[a[0]] = strip_accents(a[1].replace(" ", "_"))
 
 # cria diretorios
 if not os.path.exists("parciais"):
@@ -85,11 +89,6 @@ for file_ in files:
 	if file_.lower().endswith('.zip'):
 		try:
 			os.system("unzip parciais/" + file_[:-4] + " -d parciais/" + file_[:-4])
-			# fantasy_zip = zipfile.ZipFile("parciais/" + file_)
-			# zipname = (fantasy_zip.infolist()[0].filename)[:-1]
-			# fantasy_zip.extractall('parciais/')
-			# fantasy_zip.close()
-			# os.rename("parciais/" + zipname, "parciais/" + file_[:-4])
 		except Exception as e:
 			print("erro no zip >>>> : " + file_)
 			print(e) 
