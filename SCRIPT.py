@@ -1,6 +1,6 @@
 import requests
 import sys
-import urllib
+import urllib.request
 import csv
 import os
 import zipfile
@@ -9,13 +9,10 @@ import unicodedata
 # coding: utf-8
 
 def strip_accents(text):
-    text = unicode(text, 'utf-8')
-    print text, "unicode"
+    text = str(text)
     text = unicodedata.normalize('NFD', text)
-    print text, "normalizou"
     text = text.encode('ascii', 'ignore')
     text = text.decode("utf-8")
-    print text, "decode"
     return str(text)
 
 
@@ -81,11 +78,19 @@ for l in alunos_p:
 	nome = str(l)
 	if nome in alunos:
 		nome = alunos[str(l)]
-	urllib.urlretrieve(down_url, os.path.join("parciais", nome + ".zip"))
+	urllib.request.urlretrieve(down_url, os.path.join("parciais", nome + ".zip"))
 
-# deszipa e renomeia
-files = os.listdir('parciais/')
-for file_ in files:
+# fazer download dos finais
+for l in alunos_f:
+	down_url = alunos_f[l]
+	nome = str(l)
+	if nome in alunos:
+		nome = alunos[str(l)]
+	urllib.request.urlretrieve(down_url, os.path.join("finais", nome + ".zip"))
+
+# deszipa e renomeia parciais
+files_p = os.listdir('parciais/')
+for file_ in files_p:
 	if file_.lower().endswith('.zip'):
 		try:
 			os.system("unzip parciais/" + file_[:-4] + " -d parciais/" + file_[:-4])
@@ -94,3 +99,13 @@ for file_ in files:
 			print(e) 
 os.system("rm -r parciais/*.zip")
 
+# deszipa e renomeia finais
+files_f = os.listdir('finais/')
+for file_ in files_f:
+	if file_.lower().endswith('.zip'):
+		try:
+			os.system("unzip finais/" + file_[:-4] + " -d finais/" + file_[:-4])
+		except Exception as e:
+			print("erro no zip >>>> : " + file_)
+			print(e) 
+os.system("rm -r finais/*.zip")
